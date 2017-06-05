@@ -1,0 +1,42 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  config.vm.define "nodo1" do |nodo1|
+    nodo1.vm.box = "jessie-8.0"
+    nodo1.vm.hostname = "pxc-1"
+    nodo1.vm.network :private_network, ip: '192.160.85.2'
+    nodo1.vm.network :forwarded_port, guest: 22, host: 11052, id: "ssh"
+    nodo1.vm.provider :virtualbox do |vbox|
+      vbox.customize [ 'modifyvm', :id, '--cpus', '2' ]
+      vbox.customize [ 'modifyvm', :id, '--memory', '4096' ]
+    end
+  end
+
+  config.vm.define "nodo2" do |nodo2|
+    nodo2.vm.box = "centos-6.7-minimal"
+    nodo2.vm.hostname = "pxc-2"
+    nodo2.vm.network :private_network, ip: '192.160.85.3'
+    nodo2.vm.network :forwarded_port, guest: 22, host: 11053, id: "ssh"
+    nodo2.vm.provider :virtualbox do |vbox|
+      vbox.customize [ 'modifyvm', :id, '--cpus', '2' ]
+      vbox.customize [ 'modifyvm', :id, '--memory', '4096' ]
+    end
+  end
+
+  config.vm.define "nodo3" do |nodo3|
+    nodo3.vm.box = "wheezy-7.6"
+    nodo3.vm.hostname = "pxc-3"
+    nodo3.vm.network :private_network, ip: '192.160.85.4'
+    nodo3.vm.network :forwarded_port, guest: 22, host: 11054, id: "ssh"
+    nodo3.vm.provider :virtualbox do |vbox|
+      vbox.customize [ 'modifyvm', :id, '--cpus', '2' ]
+      vbox.customize [ 'modifyvm', :id, '--memory', '4096' ]
+    end
+  end
+
+end
